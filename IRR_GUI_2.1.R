@@ -362,13 +362,13 @@ get_score <- function( mixIT , data1, data2){
     for (i in 1:n_levels_IT){
       
       #loop through IT levels and renumber sents according to IT levels
-      data1_sub[[i]] <- data1[data1$IT == ref_IT[i],]  #subset by IT category
-      data1_sub[[i]] <- renumber_sents(data1_sub[[i]]) #renumber the subset
-      data1_sub[[i]] <- delete_extra_no_code(data1_sub[[i]])  ##delete rows with extra no code knowledge
+      data1_sub[[i]] <- data1[data1$IT == ref_IT[i],]  #subset by IT category from coder 1
+      data1_sub[[i]] <- renumber_sents(data1_sub[[i]]) #renumber the subset 
+      data1_sub[[i]] <- delete_extra_no_code(data1_sub[[i]])  #delete rows with extra no code knowledge
       
-      data2_sub[[i]] <- data2[data2$IT == ref_IT[i],]
-      data2_sub[[i]] <- renumber_sents(data2_sub[[i]])
-      data2_sub[[i]] <- delete_extra_no_code(data2_sub[[i]]) 
+      data2_sub[[i]] <- data2[data2$IT == ref_IT[i],]   #subset by IT category from coder 2
+      data2_sub[[i]] <- renumber_sents(data2_sub[[i]])  #renumber the subset 
+      data2_sub[[i]] <- delete_extra_no_code(data2_sub[[i]])  #delete rows with extra no code knowledge
       
       Inter_k_IT[[i]] <- Inter_reliability(data1_sub[[i]], data2_sub[[i]] )  #calculate kappa
       
@@ -406,20 +406,20 @@ get_score <- function( mixIT , data1, data2){
 
 #library(gWidgetsRGtk2)
 
-w = gwindow("Simple IRR GUI",width = 300 , height = 500)
+w = gwindow("Simple IRR GUI",width = 300 , height = 500)   #create a window
 
-gg<- ggroup(container = w,spacing = 20, horizontal = F)
+gg<- ggroup(container = w,spacing = 20, horizontal = F)  
 
 g1 <- ggroup(container = gg,spacing = 10, horizontal = T)
 
 lbl_data_name <- glabel(
   "Raw Data1, renamed as: ",
   container = g1
-)
+)   #add a label
 
 addSpring(g1)
 
-txt_data_frame_name1 <- gedit("DataCoder1", cont = g1)
+txt_data_frame_name1 <- gedit("DataCoder1", cont = g1)  #add a text editor
 
 
 
@@ -428,14 +428,14 @@ g2 <- ggroup(container = gg,spacing = 10, horizontal = T)
 lbl_data_name2 <- glabel(
   "Raw Data2, renamed as: ",
   container = g2
-)
+)   #add a second label
 
 addSpring(g2)
 
-txt_data_frame_name2 <- gedit("DataCoder2", cont = g2)
+txt_data_frame_name2 <- gedit("DataCoder2", cont = g2)   #add a second text editor
 
 
-status_bar <- gstatusbar("", container = w)
+status_bar <- gstatusbar("", container = w)   #add a status bar
 
 
 
@@ -444,7 +444,7 @@ g3 <- ggroup(container = gg,spacing = 10, horizontal = T)
 mix_IT_label <- glabel(
   "Mix all IT categories as one ? ",
   container = g3
-)
+)   #add label
 
 addSpring(g3)
 
@@ -453,7 +453,8 @@ mixITorNot <- gdroplist(c("Yes", "No"), count = T, cont = g3)  #dropdown list fo
 
 text1 = "1. Change the names of Datasets used on the main interface. (optional)
 2. Select if you want do the caluculation with Mix_IT from the dropdown-menu on the main interface.
-3. Click on continue button on the pop-out window."
+3. Click on continue button on the pop-out window."   
+#text of instructions to be displayed on the pop-out window
 
 mywait(text1, "Step 1")   
 #pop-out window that pauses the script with text displayed in the window
@@ -466,7 +467,7 @@ mywait(text1, "Step 1")
 mixIT_value <- svalue(mixITorNot) #Yes or No for mixIT
 
 
-if (mixIT_value == "Yes"){
+if (mixIT_value == "Yes"){   #set status for after mixIT is specified 
   status_bar <- gstatusbar("MixIT", container = w)
   mixIT = T
 }else{
@@ -504,7 +505,7 @@ btn_upload1 <- gbutton(   #push button to upload raw data files (only accept csv
       
       filter = list(
         "Comma delimited" = list(patterns = c("*.csv","*.xls")),
-        "All files" = list(patterns = c("*"))
+        "All files" = list(patterns = c("*"))   #show csv and xls files
       )
     )
   }
@@ -536,7 +537,7 @@ btn_upload2 <- gbutton(   #push button to upload raw data files (only accept csv
       
       filter = list(
         "Comma delimited" = list(patterns = c("*.csv","*.xls")),
-        "All files" = list(patterns = c("*"))
+        "All files" = list(patterns = c("*"))    #show csv and xls files
       )
     )
   }
@@ -577,7 +578,8 @@ text2 = "1. Load the first Dataset and check the status bar on the main interfac
 2. Load the first Dataset and check the status bar on the main interface.
 3. Click on Calculate button on the main interface.
 4. Click on continue button on the pop-out window."
-
+#text of instructions to be displayed on the pop-out window
+    
 mywait(text2, "Step 2")
 
 
@@ -618,7 +620,8 @@ OR
 2*. Click on continue button on the pop-out window.
 3*. Check results in the console of R.
 "
-
+#text of instructions to be displayed on the pop-out window
+    
 mywait(text3, "Step 3")
 
 ##########script pauses here 
